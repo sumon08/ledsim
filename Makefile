@@ -6,15 +6,25 @@ else
 Q := @
 endif
 
-ECHO_CC = @printf "  CXX     %s\n" "$<"
-ECHO_LD = @printf "  LINK    %s\n" "$@"
+ECHO_CC = @printf "  CC: %s\n" "$<"
+ECHO_CXX = @printf "  CXX: %s\n" "$<"
+ECHO_LD = @printf "  LD: %s\n" "$@"
 
 TARGET := build/bin/ledsim
 
 SRCS := src/main.cpp
 
-OBJS := $(patsubst %.cpp,build/obj/%.o,$(SRCS))
-DEPS := $(patsubst %.cpp,build/dep/%.d,$(SRCS))
+
+
+#glad source files
+SRCS += libs/glad/src/gl.c
+
+OBJS := $(SRCS)
+OBJS := $(OBJS:.cpp=.o)
+OBJS := $(OBJS:.c=.o)
+OBJS := $(addprefix build/obj/,$(OBJS))
+
+DEPS := $(OBJS:build/obj/%.o=build/dep/%.d)
 
 all: $(TARGET)
 
@@ -26,8 +36,16 @@ $(TARGET): $(OBJS)
 build/obj/%.o: %.cpp
 	@mkdir -p $(dir $@)
 	@mkdir -p $(patsubst build/obj/%,build/dep/%,$(dir $@))
-	$(ECHO_CC)
+	$(ECHO_CXX)
 	$(Q)$(CXX) $(CXXFLAGS) -MMD -MP \
+	    -MF build/dep/$*.d \
+	    -c $< -o $@
+
+build/obj/%.o: %.c
+	@mkdir -p $(dir $@)
+	@mkdir -p $(patsubst build/obj/%,build/dep/%,$(dir $@))
+	$(ECHO_CC)
+	$(Q)$(CC) $(CFLAGS) -MMD -MP \
 	    -MF build/dep/$*.d \
 	    -c $< -o $@
 

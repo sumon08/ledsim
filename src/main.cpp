@@ -1,11 +1,12 @@
-#include <GLFW/glfw3.h>
-
 #include <cstdlib>
 #include <iostream>
 
-static void ErrorCallback(int error, const char *description)
+#include <glad/gl.h>
+#include <GLFW/glfw3.h>
+
+static void ErrorCallback(int error, const char* description)
 {
-    std::cerr << "GLFW Error " << error << ": " << description << std::endl;
+    std::cerr << "GLFW Error " << error << ": " << description << '\n';
 }
 
 int main()
@@ -18,16 +19,12 @@ int main()
         return EXIT_FAILURE;
     }
 
-    std::cout << "Vendor   : " << glGetString(GL_VENDOR) << '\n';
-    std::cout << "Renderer : " << glGetString(GL_RENDERER) << '\n';
-    std::cout << "Version  : " << glGetString(GL_VERSION) << '\n';
-
-    // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-    // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    GLFWwindow *window =
-        glfwCreateWindow(1280, 720, "LedSim", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(
+        1280,
+        720,
+        "LedSim",
+        nullptr,
+        nullptr);
 
     if (window == nullptr)
     {
@@ -37,11 +34,44 @@ int main()
     }
 
     glfwMakeContextCurrent(window);
+
+    if (!gladLoadGL(glfwGetProcAddress))
+    {
+        std::cerr << "Failed to initialize GLAD\n";
+
+        glfwDestroyWindow(window);
+        glfwTerminate();
+
+        return EXIT_FAILURE;
+    }
+
+    std::cout << "Vendor   : "
+              << reinterpret_cast<const char*>(glGetString(GL_VENDOR))
+              << '\n';
+
+    std::cout << "Renderer : "
+              << reinterpret_cast<const char*>(glGetString(GL_RENDERER))
+              << '\n';
+
+    std::cout << "Version  : "
+              << reinterpret_cast<const char*>(glGetString(GL_VERSION))
+              << '\n';
+
+    std::cout << "GLSL     : "
+              << reinterpret_cast<const char*>(
+                     glGetString(GL_SHADING_LANGUAGE_VERSION))
+              << '\n';
+
     glfwSwapInterval(1);
 
     while (!glfwWindowShouldClose(window))
     {
-        glViewport(0, 0, 1280, 720);
+        int width;
+        int height;
+
+        glfwGetFramebufferSize(window, &width, &height);
+
+        glViewport(0, 0, width, height);
 
         glClearColor(0.08f, 0.08f, 0.08f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
