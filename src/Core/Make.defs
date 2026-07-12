@@ -1,0 +1,7 @@
+
+
+
+
+
+ASRCS += $(SRCS_DIR)/Core/Application.cpp
+SRCS +=  $(ASRCS)

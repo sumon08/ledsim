@@ -12,10 +12,18 @@ ECHO_LD = @printf "  LD: %s\n" "$@"
 
 TARGET := build/bin/ledsim
 
-SRCS := src/main.cpp
-SRCS += src/Core/Application.cpp
-SRCS += src/Graphics/Renderer.cpp
+SRCS_DIR := ./src
 
+SRCS := src/main.cpp
+
+
+include src/Core/Make.defs
+include src/Graphics/Make.defs
+include src/Math/Make.defs
+include src/Display/Make.defs
+include src/Utils/Make.defs
+
+ 
 
 
 #glad source files

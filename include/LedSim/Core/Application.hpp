@@ -5,7 +5,9 @@
 #ifndef LEDSIM_CORE_APPLICATION_HPP
 #define LEDSIM_CORE_APPLICATION_HPP
 
+#include "LedSim/Display/FrameBuffer.hpp"
 #include "LedSim/Graphics/Renderer.hpp"
+#include <memory>
 
 struct GLFWwindow;
 
@@ -24,8 +26,8 @@ public:
 
 private:
     GLFWwindow* m_window = nullptr;
-
-    LedSim::Graphics::Renderer m_renderer;
+    std::unique_ptr<LedSim::Graphics::Renderer> m_renderer;
+    LedSim::Display::FrameBuffer framebuffer{64, 32};
 };
 
 } // namespace LedSim::Core

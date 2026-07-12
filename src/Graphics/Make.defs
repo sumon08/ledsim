@@ -1,0 +1,14 @@
+
+
+GSRCS += $(SRCS_DIR)/Graphics/IndexBuffer.cpp
+GSRCS += $(SRCS_DIR)/Graphics/Renderer.cpp  
+GSRCS += $(SRCS_DIR)/Graphics/Shader.cpp 
+GSRCS += $(SRCS_DIR)/Graphics/VertexArray.cpp 
+GSRCS += $(SRCS_DIR)/Graphics/VertexBuffer.cpp 
+GSRCS += $(SRCS_DIR)/Graphics/InstanceBuffer.cpp
+
+
+SRCS += $(GSRCS)
+
+INCLUDES += 
+CXXFLAGS += 

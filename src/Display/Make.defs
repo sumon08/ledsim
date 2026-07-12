@@ -1,0 +1,4 @@
+
+
+SRCS += $(SRCS_DIR)/Display/FrameBuffer.cpp 
+SRCS += $(SRCS_DIR)/Display/Pixel.cpp 

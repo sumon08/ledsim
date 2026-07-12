@@ -3,9 +3,8 @@
 #include <cstdlib>
 #include <iostream>
 
-
-#include <glad/gl.h>
 #include <GLFW/glfw3.h>
+#include <glad/gl.h>
 
 #include "LedSim/Graphics/Renderer.hpp"
 
@@ -13,13 +12,11 @@ static void ErrorCallback(int error, const char *description) {
   std::cerr << "GLFW Error " << error << ": " << description << '\n';
 }
 
-
-
 LedSim::Core::Application::~Application() {
+  m_renderer.reset();
   if (m_window) {
     glfwDestroyWindow(m_window);
   }
- 
 
   glfwTerminate();
 }
@@ -27,10 +24,16 @@ LedSim::Core::Application::~Application() {
 bool LedSim::Core::Application::Initialize() {
   glfwSetErrorCallback(ErrorCallback);
 
+  
+
   if (!glfwInit()) {
     std::cerr << "Failed to initialize GLFW\n";
     return false;
   }
+
+  framebuffer.At(10, 5).red = 255;
+  framebuffer.At(11, 5).green = 255;
+  framebuffer.At(12, 5).blue = 255;
 
   m_window = glfwCreateWindow(1280, 720, "LedSim", nullptr, nullptr);
 
@@ -46,7 +49,8 @@ bool LedSim::Core::Application::Initialize() {
     return false;
   }
 
-  if (!m_renderer.Initialize()) {
+  m_renderer = std::make_unique<LedSim::Graphics::Renderer>();
+  if (!m_renderer->Initialize()) {
     return false;
   }
 
@@ -76,11 +80,11 @@ void LedSim::Core::Application::Run() {
 
     glfwGetFramebufferSize(m_window, &width, &height);
 
-    m_renderer.BeginFrame(width, height);
-
+    m_renderer->BeginFrame(width, height);
+    m_renderer->Draw(framebuffer);
     glfwSwapBuffers(m_window);
 
-    m_renderer.EndFrame();
+    m_renderer->EndFrame();
 
     glfwPollEvents();
   }
