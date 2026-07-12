@@ -1,0 +1,275 @@
+# LedSim
+
+> **A modern 3D LED display simulation and visualization engine.**
+
+LedSim is an open-source C++ application for simulating LED display panels in a realistic 3D environment. It is designed for engineers, developers, and hobbyists who want to develop, test, and visualize LED display systems before deploying them to physical hardware.
+
+Unlike a simple pixel viewer, LedSim treats LED displays as real-world objects. Panels can be positioned, rotated, viewed from different angles, and eventually assembled into complete display walls.
+
+---
+
+# Why LedSim?
+
+Developing software for LED displays is often difficult without physical hardware.
+
+LedSim aims to solve that problem by providing a virtual environment where developers can:
+
+- Preview graphics and animations
+- Test rendering algorithms
+- Simulate multiple LED panels
+- Verify panel layouts
+- Prototype display controllers
+- Develop display firmware without hardware
+
+The long-term goal is to become a complete LED display development platform.
+
+---
+
+# Planned Features
+
+## Rendering
+
+- Modern OpenGL renderer
+- Hardware-accelerated GPU rendering
+- GPU instancing
+- Perspective and orthographic cameras
+- Physically positioned LED panels
+- Multiple camera views
+
+## Display Simulation
+
+- LED framebuffer
+- Multiple panel layouts
+- Various LED pitches (P2, P2.5, P4, P5, P10, etc.)
+- Indoor and outdoor panels
+- Cabinet simulation
+- Brightness control
+- Color correction
+- Gamma correction
+
+## Development Tools
+
+- Test pattern generator
+- Text rendering
+- Image rendering
+- Animation playback
+- Video playback
+- Panel configuration editor
+
+## Future Hardware Support
+
+- LED controller simulation
+- Network protocol simulation
+- Virtual commissioning
+- Hardware debugging
+- Firmware development support
+
+---
+
+# Design Philosophy
+
+LedSim is built around one simple principle:
+
+> **Display logic and rendering must remain completely independent.**
+
+The LED framebuffer should know nothing about OpenGL.
+
+Likewise, the renderer should know nothing about LED controller protocols.
+
+```
+Application
+      │
+      ▼
+ Display Layer
+      │
+      ▼
+ Rendering Layer
+      │
+      ▼
+      GPU
+```
+
+This separation makes the system easier to maintain, extend, and reuse.
+
+---
+
+# Architecture
+
+```
+LedSim
+│
+├── Core
+│   ├── Application
+│   ├── Window
+│   └── Input
+│
+├── Scene
+│   ├── Camera
+│   ├── Transform
+│   └── Entity
+│
+├── Display
+│   ├── Panel
+│   ├── Pixel
+│   ├── FrameBuffer
+│   └── PanelConfiguration
+│
+├── Renderer
+│   ├── Renderer
+│   ├── Shader
+│   ├── Mesh
+│   ├── VertexArray
+│   ├── VertexBuffer
+│   ├── IndexBuffer
+│   └── InstanceBuffer
+│
+├── Assets
+│
+└── External
+```
+
+---
+
+# Rendering Pipeline
+
+```
+Display Data
+      │
+      ▼
+FrameBuffer
+      │
+      ▼
+Renderer
+      │
+      ▼
+Mesh + Instance Data
+      │
+      ▼
+OpenGL
+      │
+      ▼
+GPU
+```
+
+A single LED mesh is reused for every LED using GPU instancing.
+
+For example, a **64 × 32** panel contains **2,048 LEDs**, yet can be rendered using:
+
+- One LED mesh
+- One instance buffer
+- One draw call
+
+This approach scales efficiently to very large LED walls.
+
+---
+
+# 3D Scene
+
+Unlike traditional LED simulators, every panel exists as an object in 3D space.
+
+Each panel has its own:
+
+- Position
+- Rotation
+- Scale
+
+This makes it possible to simulate:
+
+- Wall-mounted displays
+- Angled installations
+- Multi-panel arrangements
+- LED cabinets
+- Curved displays (future)
+
+---
+
+# Technology Stack
+
+| Component | Technology |
+|----------|------------|
+| Language | C++ |
+| Graphics API | OpenGL 3.3+ |
+| Math Library | GLM |
+| Window Management | GLFW |
+| OpenGL Loader | GLAD |
+
+---
+
+# Current Status
+
+The project is in early development.
+
+### Completed
+
+- OpenGL initialization
+- GLFW window management
+- Shader system
+- Vertex buffers
+- Index buffers
+- Vertex arrays
+- GPU instanced rendering
+- Rendering of a 64×32 LED panel
+
+### In Progress
+
+- Scene system
+- Transform hierarchy
+- Camera system
+- 3D panel rendering
+
+### Planned
+
+- Framebuffer abstraction
+- Multiple panel support
+- Text rendering
+- Animation system
+- Image/video playback
+- Hardware protocol simulation
+
+---
+
+# Roadmap
+
+## Version 0.1
+
+- Basic rendering engine
+- Shader abstraction
+- Instanced LED rendering
+
+## Version 0.2
+
+- Scene graph
+- Camera system
+- 3D panel rendering
+
+## Version 0.3
+
+- Display framebuffer
+- Multiple panels
+- Display configuration
+
+## Version 0.4
+
+- Text rendering
+- Images
+- Animations
+
+## Version 1.0
+
+- Complete LED display simulation platform
+
+---
+
+# Contributing
+
+Contributions, suggestions, and bug reports are welcome.
+
+As the project grows, coding guidelines and contribution documentation will be added.
+
+---
+
+# License
+
+This project is currently under development.
+
+A license will be chosen before the first public release.
