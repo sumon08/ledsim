@@ -13,7 +13,8 @@ ECHO_LD = @printf "  LD: %s\n" "$@"
 TARGET := build/bin/ledsim
 
 SRCS := src/main.cpp
-SRCS += src/Application.cpp
+SRCS += src/Core/Application.cpp
+SRCS += src/Graphics/Renderer.cpp
 
 
 

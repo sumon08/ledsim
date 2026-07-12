@@ -1,10 +1,10 @@
-#include "Application.h"
+#include "LedSim/Core/Application.hpp"
 
 #include <cstdlib>
 
 int main()
 {
-    Application app;
+    LedSim::Core::Application app;
 
     if (!app.Initialize())
     {
