@@ -1,0 +1,11 @@
+menu "LedSim"
+
+config DEBUG
+    bool "Debug Build"
+    default y
+
+config OPENGL
+    bool "OpenGL Renderer"
+    default y
+
+endmenu
